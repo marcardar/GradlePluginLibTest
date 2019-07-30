@@ -1,0 +1,34 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.0"
+    defaultConfig {
+        applicationId "com.marcardar.gradlepluginlibtest"
+        minSdkVersion 28
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        debug {
+            // cannot place this in sqlcipher module, because it only works here
+            packagingOptions {
+                // note: this is only relevant to debug builds because in release we build separate APKs per abi
+                // we don't have any 64bit libs for gpen, and since we cannot mix 32bit and 64bit whe must
+                // exclude other 64bit libs
+                exclude 'lib/armeabi/libsqlcipher.so'
+                exclude 'lib/arm64-v8a/libsqlcipher.so'
+                exclude 'lib/x86_64/libsqlcipher.so'
+            }
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation project(':sqlcipher')
+}

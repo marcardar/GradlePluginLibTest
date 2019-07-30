@@ -1,0 +1,2 @@
+include ':app', ':sqlcipher'
+rootProject.name='GradlePluginLibTest'
